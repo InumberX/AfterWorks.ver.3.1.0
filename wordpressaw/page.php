@@ -241,9 +241,11 @@ get_header();
 ?>
 <li<?php if($i > 3) echo ' class="aw-lazy"'; ?>>
 <div class="ttl-box">
+<?php if($skill_image_front[$i] != null && $skill_image_front[$i] !== '') { ?>
 <div class="skill-ico-box">
 <img src="<?php echo wp_get_attachment_image_src($skill_image_front[$i], 'full')[0]; ?>" alt="<?php echo $skill_title_front[$i]; ?>">
 </div>
+<?php } ?>
 <h3><?php echo $skill_title_front[$i]; ?></h3>
 </div>
 <div class="tx-box">

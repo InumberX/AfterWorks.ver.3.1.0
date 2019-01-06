@@ -163,3 +163,36 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+/**
+ * Add a pingback url auto-discovery header for single posts, pages, or attachments.
+ */
+function my_delete_local_jquery() {
+  wp_deregister_script('jquery');
+}
+function add_styles_and_scripts() {
+  wp_enqueue_style( 'common_pc', get_template_directory_uri() . '/style_pc.css' );
+  wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js' );
+  wp_enqueue_script( 'common_js', get_template_directory_uri() . '/js/common.js', array('jquery') );
+}
+
+add_action( 'wp_enqueue_scripts', 'my_delete_local_jquery' );
+add_action( 'wp_enqueue_scripts', 'add_styles_and_scripts' );
+
+remove_action('wp_head', 'wp_generator');
+remove_action('wp_head', 'feed_links', 2);
+remove_action('wp_head', 'feed_links_extra', 3);
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('admin_print_scripts', 'print_emoji_detection_script');
+remove_action('wp_print_styles', 'print_emoji_styles');
+remove_action('admin_print_styles', 'print_emoji_styles');
+remove_action('wp_head', 'rsd_link');
+remove_action('wp_head', 'wlwmanifest_link');
+remove_action('wp_head', 'wp_print_head_scripts', 9);
+remove_action('wp_head', 'rsd_link');
+remove_action('wp_head', 'wlwmanifest_link');
+
+function default_style_version( $styles ) {
+  $version = date( 'Ymd', filemtime( get_template_directory() . '/style.css' ));
+  $styles->default_version = $version;
+}
+add_action( 'wp_default_styles', 'default_style_version' );
